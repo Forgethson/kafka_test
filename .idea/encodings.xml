@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/atguigu-flink-kafka/atguigu-flink-kafka/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/atguigu-flink-kafka/atguigu-flink-kafka/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/atguigu-kafka/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/atguigu-kafka/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/atguigu-spark-kafka/atguigu-spark-kafka/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/atguigu-spark-kafka/atguigu-spark-kafka/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/atguigu-spring-kafka/atguigu-spring-kafka/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/springboot/src/main/java" charset="UTF-8" />
+  </component>
+</project>
