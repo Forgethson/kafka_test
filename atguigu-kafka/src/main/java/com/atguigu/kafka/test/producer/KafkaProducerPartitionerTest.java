@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Future;
 
-public class KafkaProducerRetryTest {
+public class KafkaProducerPartitionerTest {
     public static void main(String[] args) throws Exception {
         // 创建配置对象
         Map<String, Object> configMap = new HashMap<>();
@@ -22,9 +22,10 @@ public class KafkaProducerRetryTest {
         configMap.put(ProducerConfig.RETRIES_CONFIG, 5);
         configMap.put(ProducerConfig.BATCH_SIZE_CONFIG, 5);
         configMap.put(ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG, 3000);
+        configMap.put(ProducerConfig.PARTITIONER_CLASS_CONFIG, MyKafkaPartitioner.class.getName());
 
         KafkaProducer<String, String> producer = new KafkaProducer<>(configMap);
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 3; i++) {
             ProducerRecord<String, String> record = new ProducerRecord<>("test", "key" + i, "value" + i);
             final Future<RecordMetadata> send = producer.send(record);
         }

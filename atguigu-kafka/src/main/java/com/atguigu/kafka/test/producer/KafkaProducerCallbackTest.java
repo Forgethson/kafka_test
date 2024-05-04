@@ -1,16 +1,13 @@
 package com.atguigu.kafka.test.producer;
 
-import org.apache.kafka.clients.producer.KafkaProducer;
-import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.clients.producer.RecordMetadata;
+import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Future;
 
-public class KafkaProducerRetryTest {
+public class KafkaProducerCallbackTest {
     public static void main(String[] args) throws Exception {
         // 创建配置对象
         Map<String, Object> configMap = new HashMap<>();
@@ -24,9 +21,17 @@ public class KafkaProducerRetryTest {
         configMap.put(ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG, 3000);
 
         KafkaProducer<String, String> producer = new KafkaProducer<>(configMap);
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 3; i++) {
             ProducerRecord<String, String> record = new ProducerRecord<>("test", "key" + i, "value" + i);
-            final Future<RecordMetadata> send = producer.send(record);
+            final Future<RecordMetadata> send = producer.send(record, new Callback() {
+                @Override
+                public void onCompletion(RecordMetadata recordMetadata, Exception e) {
+                    // recordMetadata的toString方法：this.topicPartition.toString() + "@" + this.offset
+                    System.out.println("call back：" + recordMetadata);
+                }
+            });
+            RecordMetadata recordMetadata = send.get();
+            System.out.println("async：" + recordMetadata);
         }
         producer.close();
     }
