@@ -15,7 +15,7 @@ public class KafkaProducerCallbackTest {
         // 对生产的数据K, V进行序列化的操作
         configMap.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         configMap.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
-        configMap.put(ProducerConfig.ACKS_CONFIG, "1");
+        configMap.put(ProducerConfig.ACKS_CONFIG, "-1");
         configMap.put(ProducerConfig.RETRIES_CONFIG, 5);
         configMap.put(ProducerConfig.BATCH_SIZE_CONFIG, 5);
         configMap.put(ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG, 3000);
@@ -30,8 +30,7 @@ public class KafkaProducerCallbackTest {
                     System.out.println("call back：" + recordMetadata);
                 }
             });
-            RecordMetadata recordMetadata = send.get();
-            System.out.println("async：" + recordMetadata);
+            System.out.println("发送成功");
         }
         producer.close();
     }

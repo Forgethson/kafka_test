@@ -12,12 +12,8 @@ import java.util.concurrent.Future;
 
 public class KafkaProducerIdemTest {
     public static void main(String[] args) throws Exception {
-
-
-        // TODO 创建配置对象
         Map<String, Object> configMap = new HashMap<>();
         configMap.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-        // TODO 对生产的数据K, V进行序列化的操作
         configMap.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         configMap.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         configMap.put(ProducerConfig.ACKS_CONFIG, "-1");
@@ -25,21 +21,14 @@ public class KafkaProducerIdemTest {
         configMap.put(ProducerConfig.RETRIES_CONFIG, 5);
         configMap.put(ProducerConfig.BATCH_SIZE_CONFIG, 5);
         configMap.put(ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG, 3000);
+        KafkaProducer<String, String> producer = new KafkaProducer<>(configMap);
 
-        KafkaProducer<String, String> producer = new KafkaProducer<String, String>(configMap);
-
-        for ( int i = 0; i < 10; i++ ) {
-            ProducerRecord<String, String> record = new ProducerRecord<String, String>(
+        for (int i = 0; i < 10; i++) {
+            ProducerRecord<String, String> record = new ProducerRecord<>(
                     "test", "key" + i, "value" + i
             );
-
             final Future<RecordMetadata> send = producer.send(record);
-
         }
-
-
         producer.close();
-
-
     }
 }
