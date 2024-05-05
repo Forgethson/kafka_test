@@ -9,21 +9,18 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
 public class Kafka4FlinkTest {
     public static void main(String[] args) throws Exception {
-
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
         KafkaSource<String> kafkaSource = KafkaSource.<String>builder()
-                .setBootstrapServers("localhost:9092")
-                .setTopics("test")
-                .setGroupId("atguigu")
-                .setStartingOffsets(OffsetsInitializer.latest())
+                .setBootstrapServers("localhost:9091")
+                .setTopics("test_Flink_02")
+                .setGroupId("CG_wjd_flink")
+                .setStartingOffsets(OffsetsInitializer.earliest())
                 .setValueOnlyDeserializer(new SimpleStringSchema())
                 .build();
 
         DataStreamSource<String> stream = env.fromSource(kafkaSource, WatermarkStrategy.noWatermarks(), "kafka-source");
-
         stream.print("Kafka");
-
         env.execute();
     }
 }

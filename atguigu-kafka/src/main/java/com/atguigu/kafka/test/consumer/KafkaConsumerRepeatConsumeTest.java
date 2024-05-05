@@ -11,24 +11,20 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class KafkaConsumerTest {
+public class KafkaConsumerRepeatConsumeTest {
     public static void main(String[] args) {
-        // 配置属性集合
         Map<String, Object> configMap = new HashMap<>();
-        // 配置属性：Kafka集群地址
         configMap.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-        // 配置属性: Kafka传输的数据为KV对，所以需要对获取的数据分别进行反序列化
         configMap.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         configMap.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
-        // 配置属性: 读取数据的位置 ，取值为earliest（最早），latest（最晚）
-//        configMap.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         configMap.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
-        // 配置属性: 消费者组
-        configMap.put(ConsumerConfig.GROUP_ID_CONFIG, "CG_wjd_test2_01");
+        configMap.put(ConsumerConfig.GROUP_ID_CONFIG, "CG_wjd_test1_10");
+        configMap.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false");
+        // 发现可以重复消费
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(configMap);
 
         // 消费者订阅指定主题的数据
-        consumer.subscribe(Collections.singletonList("test2"));
+        consumer.subscribe(Collections.singletonList("test1"));
         while (true) {
             // 每隔100毫秒，抓取一次数据
             ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
